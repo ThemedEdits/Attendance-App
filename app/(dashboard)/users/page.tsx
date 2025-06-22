@@ -99,15 +99,15 @@ export default function UsersPage() {
   }
 
   return (
-    <div className="space-y-4 md:space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">User Management</h1>
-          <p className="text-muted-foreground">Manage employee accounts and information</p>
+    <div className="space-y-4 md:space-y-6 w-full max-w-full">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight truncate">User Management</h1>
+          <p className="text-muted-foreground truncate">Manage employee accounts and information</p>
         </div>
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
           <DialogTrigger asChild>
-            <Button size="sm" className="w-full sm:w-auto">
+            <Button size="sm" className="w-full sm:w-auto shrink-0">
               <Plus className="mr-2 h-4 w-4" />
               Add Employee
             </Button>
@@ -168,72 +168,74 @@ export default function UsersPage() {
         </Dialog>
       </div>
 
-      <Card>
+      <Card className="w-full">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Users className="h-5 w-5" />
-            Employee Directory
+            <Users className="h-5 w-5 shrink-0" />
+            <span className="truncate">Employee Directory</span>
           </CardTitle>
           <CardDescription>
             {filteredUsers.length} of {userData.length} employees
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="w-full">
           {/* Filters */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-6">
-            <div className="relative flex-1">
+          <div className="flex flex-col sm:flex-row gap-4 mb-6 w-full">
+            <div className="relative flex-1 min-w-0">
               <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 placeholder="Search employees..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-8"
+                className="pl-8 w-full"
               />
             </div>
-            <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
-              <SelectTrigger className="w-full sm:w-[180px]">
-                <SelectValue placeholder="Filter by department" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Departments</SelectItem>
-                <SelectItem value="Engineering">Engineering</SelectItem>
-                <SelectItem value="Marketing">Marketing</SelectItem>
-                <SelectItem value="Sales">Sales</SelectItem>
-                <SelectItem value="HR">HR</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full sm:w-[180px]">
-                <SelectValue placeholder="Filter by status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="inactive">Inactive</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="flex flex-col sm:flex-row gap-2 shrink-0">
+              <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
+                <SelectTrigger className="w-full sm:w-[140px]">
+                  <SelectValue placeholder="Department" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Depts</SelectItem>
+                  <SelectItem value="Engineering">Engineering</SelectItem>
+                  <SelectItem value="Marketing">Marketing</SelectItem>
+                  <SelectItem value="Sales">Sales</SelectItem>
+                  <SelectItem value="HR">HR</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-full sm:w-[140px]">
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="inactive">Inactive</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           {/* Table */}
-          <div className="rounded-md border overflow-hidden">
+          <div className="rounded-md border w-full overflow-hidden">
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="min-w-[200px]">Employee</TableHead>
-                    <TableHead className="hidden md:table-cell">Department</TableHead>
-                    <TableHead className="hidden lg:table-cell">Role</TableHead>
-                    <TableHead className="hidden sm:table-cell">Contact</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                    <TableHead className="min-w-[180px]">Employee</TableHead>
+                    <TableHead className="hidden md:table-cell min-w-[100px]">Department</TableHead>
+                    <TableHead className="hidden lg:table-cell min-w-[120px]">Role</TableHead>
+                    <TableHead className="hidden sm:table-cell min-w-[160px]">Contact</TableHead>
+                    <TableHead className="min-w-[80px]">Status</TableHead>
+                    <TableHead className="text-right min-w-[100px]">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredUsers.map((user) => (
                     <TableRow key={user.id}>
-                      <TableCell>
-                        <div className="flex items-center space-x-3">
-                          <Avatar className="h-8 w-8">
+                      <TableCell className="min-w-0">
+                        <div className="flex items-center space-x-3 min-w-0">
+                          <Avatar className="h-8 w-8 shrink-0">
                             <AvatarImage src="/placeholder-user.jpg" />
                             <AvatarFallback>
                               {user.name
@@ -242,7 +244,7 @@ export default function UsersPage() {
                                 .join("")}
                             </AvatarFallback>
                           </Avatar>
-                          <div className="min-w-0">
+                          <div className="min-w-0 flex-1">
                             <div className="font-medium truncate">{user.name}</div>
                             <div className="text-sm text-muted-foreground truncate">
                               Joined {new Date(user.joinDate).toLocaleDateString()}
@@ -252,15 +254,15 @@ export default function UsersPage() {
                       </TableCell>
                       <TableCell className="hidden md:table-cell">{user.department}</TableCell>
                       <TableCell className="hidden lg:table-cell">{user.role}</TableCell>
-                      <TableCell className="hidden sm:table-cell">
-                        <div className="space-y-1">
-                          <div className="flex items-center text-sm">
-                            <Mail className="mr-1 h-3 w-3" />
+                      <TableCell className="hidden sm:table-cell min-w-0">
+                        <div className="space-y-1 min-w-0">
+                          <div className="flex items-center text-sm min-w-0">
+                            <Mail className="mr-1 h-3 w-3 shrink-0" />
                             <span className="truncate">{user.email}</span>
                           </div>
                           <div className="flex items-center text-sm text-muted-foreground">
-                            <Phone className="mr-1 h-3 w-3" />
-                            <span>{user.phone}</span>
+                            <Phone className="mr-1 h-3 w-3 shrink-0" />
+                            <span className="truncate">{user.phone}</span>
                           </div>
                         </div>
                       </TableCell>

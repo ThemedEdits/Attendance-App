@@ -97,13 +97,13 @@ export default function AttendancePage() {
   }
 
   return (
-    <div className="space-y-4 md:space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Attendance Records</h1>
-          <p className="text-muted-foreground">Track and manage employee attendance</p>
+    <div className="space-y-4 md:space-y-6 w-full max-w-full">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight truncate">Attendance Records</h1>
+          <p className="text-muted-foreground truncate">Track and manage employee attendance</p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 shrink-0">
           <Button variant="outline" size="sm" className="w-full sm:w-auto">
             <Download className="mr-2 h-4 w-4" />
             Export
@@ -115,72 +115,74 @@ export default function AttendancePage() {
         </div>
       </div>
 
-      <Card>
+      <Card className="w-full">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Calendar className="h-5 w-5" />
-            Today's Attendance
+            <Calendar className="h-5 w-5 shrink-0" />
+            <span className="truncate">Today's Attendance</span>
           </CardTitle>
           <CardDescription>January 15, 2024</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="w-full">
           {/* Filters */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-6">
-            <div className="relative flex-1">
+          <div className="flex flex-col sm:flex-row gap-4 mb-6 w-full">
+            <div className="relative flex-1 min-w-0">
               <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 placeholder="Search employees..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-8"
+                className="pl-8 w-full"
               />
             </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full sm:w-[180px]">
-                <Filter className="mr-2 h-4 w-4" />
-                <SelectValue placeholder="Filter by status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="present">Present</SelectItem>
-                <SelectItem value="late">Late</SelectItem>
-                <SelectItem value="absent">Absent</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
-              <SelectTrigger className="w-full sm:w-[180px]">
-                <SelectValue placeholder="Filter by department" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Departments</SelectItem>
-                <SelectItem value="Engineering">Engineering</SelectItem>
-                <SelectItem value="Marketing">Marketing</SelectItem>
-                <SelectItem value="Sales">Sales</SelectItem>
-                <SelectItem value="HR">HR</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="flex flex-col sm:flex-row gap-2 shrink-0">
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-full sm:w-[140px]">
+                  <Filter className="mr-2 h-4 w-4" />
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="present">Present</SelectItem>
+                  <SelectItem value="late">Late</SelectItem>
+                  <SelectItem value="absent">Absent</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={departmentFilter} onValueChange={setDepartmentFilter}>
+                <SelectTrigger className="w-full sm:w-[140px]">
+                  <SelectValue placeholder="Department" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Depts</SelectItem>
+                  <SelectItem value="Engineering">Engineering</SelectItem>
+                  <SelectItem value="Marketing">Marketing</SelectItem>
+                  <SelectItem value="Sales">Sales</SelectItem>
+                  <SelectItem value="HR">HR</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           {/* Table */}
-          <div className="rounded-md border overflow-hidden">
+          <div className="rounded-md border w-full overflow-hidden">
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="min-w-[200px]">Employee</TableHead>
-                    <TableHead className="hidden md:table-cell">Department</TableHead>
-                    <TableHead className="hidden sm:table-cell">Check In</TableHead>
-                    <TableHead className="hidden sm:table-cell">Check Out</TableHead>
-                    <TableHead className="hidden lg:table-cell">Working Hours</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead className="min-w-[180px]">Employee</TableHead>
+                    <TableHead className="hidden md:table-cell min-w-[100px]">Department</TableHead>
+                    <TableHead className="hidden sm:table-cell min-w-[80px]">Check In</TableHead>
+                    <TableHead className="hidden sm:table-cell min-w-[80px]">Check Out</TableHead>
+                    <TableHead className="hidden lg:table-cell min-w-[100px]">Working Hours</TableHead>
+                    <TableHead className="min-w-[80px]">Status</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredData.map((record) => (
                     <TableRow key={record.id}>
-                      <TableCell>
-                        <div className="flex items-center space-x-3">
-                          <Avatar className="h-8 w-8">
+                      <TableCell className="min-w-0">
+                        <div className="flex items-center space-x-3 min-w-0">
+                          <Avatar className="h-8 w-8 shrink-0">
                             <AvatarImage src="/placeholder-user.jpg" />
                             <AvatarFallback>
                               {record.name
@@ -189,7 +191,7 @@ export default function AttendancePage() {
                                 .join("")}
                             </AvatarFallback>
                           </Avatar>
-                          <div className="min-w-0">
+                          <div className="min-w-0 flex-1">
                             <div className="font-medium truncate">{record.name}</div>
                             <div className="text-sm text-muted-foreground truncate">{record.email}</div>
                           </div>

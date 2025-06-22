@@ -3,6 +3,7 @@
 import { Home, Settings, Users, Clock, BarChart3, UserCheck } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useSidebar } from "@/components/ui/sidebar"
 
 import {
   Sidebar,
@@ -47,6 +48,13 @@ const menuItems = [
 
 export function AppSidebar() {
   const pathname = usePathname()
+  const { setOpenMobile, isMobile } = useSidebar()
+
+  const handleLinkClick = () => {
+    if (isMobile) {
+      setOpenMobile(false)
+    }
+  }
 
   return (
     <Sidebar>
@@ -64,7 +72,7 @@ export function AppSidebar() {
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={pathname === item.url}>
-                    <Link href={item.url}>
+                    <Link href={item.url} onClick={handleLinkClick}>
                       <item.icon />
                       <span>{item.title}</span>
                     </Link>
